@@ -1,5 +1,7 @@
 package com.philnguyen.litanime.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -24,11 +26,13 @@ public class Order {
     @JsonProperty("order_date")
     private Timestamp orderDate;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "product_id")
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "order")
+    @JsonIgnoreProperties("order")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
-    public void addProduct(Product product) {
-        this.products.add(product);
+    public void addOrderItem(OrderItem orderItem) {
+        this.orderItems.add(orderItem);
+        orderItem.setOrder(this);
     }
+
 }

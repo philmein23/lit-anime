@@ -2,6 +2,7 @@ package com.philnguyen.litanime.service;
 
 import com.philnguyen.litanime.dto.ProductDto;
 import com.philnguyen.litanime.model.Order;
+import com.philnguyen.litanime.model.OrderItem;
 import com.philnguyen.litanime.model.Product;
 import com.philnguyen.litanime.repository.OrderRepository;
 import com.philnguyen.litanime.repository.ProductRepository;
@@ -11,16 +12,27 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final ProductService productService;
+    private final ProductRepository productRepository;
 
-    public OrderService(OrderRepository orderRepository, ProductService productService) {
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
-        this.productService = productService;
+        this.productRepository = productRepository;
+    }
+
+    @Transactional
+    public List<Order> findAllOrders() {
+        return StreamSupport
+                .stream(orderRepository
+                        .findAll()
+                        .spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -31,12 +43,18 @@ public class OrderService {
         newOrder.setOrderDate(orderDate);
 
         for (ProductDto product : products) {
-            Product newProduct = productService.addNewProduct(product.getProductName(), product.getDescription(), product.getProductType(), product.getPrice());
+            Product newProduct = new Product();
+            newProduct.setProductName(product.getProductName());
+            newProduct.setDescription(product.getDescription());
+            newProduct.setProductType(product.getProductType());
+            newProduct.setPrice(product.getPrice());
 
-            newOrder.getProducts().add(newProduct);
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProduct(newProduct);
+            orderItem.setQuantity(4);
+
+            newOrder.addOrderItem(orderItem);
         }
-
-        System.out.println(newOrder);
 
         return orderRepository.save(newOrder);
     }
