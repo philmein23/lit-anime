@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Order {
-
     @JsonProperty("order_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
