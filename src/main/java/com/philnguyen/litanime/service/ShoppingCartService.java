@@ -71,7 +71,8 @@ public class ShoppingCartService {
                             .stream()
                             .filter(cartItem -> cartItem
                                     .getProduct()
-                                    .getProductId() == productId)
+                                    .getProductId()
+                                    .equals(productId))
                             .findFirst()
                             .orElse(null);
 
