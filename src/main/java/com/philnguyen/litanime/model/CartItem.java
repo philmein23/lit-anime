@@ -27,4 +27,5 @@ public class CartItem {
     @JoinColumn(name = "product_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Product product;
+
 }

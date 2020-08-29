@@ -21,17 +21,14 @@ public class ShoppingCartService {
     }
 
     @Transactional
-    public ShoppingCart addProductToShoppingCart(Long cartId, CartItemDto cartItemDto) throws Exception {
-        return (ShoppingCart) shoppingCartRepository
+    public ShoppingCart addProductToShoppingCart(Long cartId, CartItemDto cartItemDto) {
+        return shoppingCartRepository
                 .findById(cartId)
                 .map(cart -> {
                     Product foundProduct = productRepository
                             .findById(cartItemDto.getProductId())
                             .orElse(null);
 
-                    if (foundProduct.equals(null)) {
-                        return new Exception("Product could not be found");
-                    }
                     CartItem newCartItem = new CartItem();
 
                     newCartItem.setQuantity(cartItemDto.getQuantity());
@@ -49,10 +46,6 @@ public class ShoppingCartService {
                             .findById(cartItemDto.getProductId())
                             .orElse(null);
 
-                    if (foundProduct.equals(null)) {
-                        return new Exception("Product could not be found");
-                    }
-
                     CartItem newCartItem = new CartItem();
                     ShoppingCart shoppingCart = new ShoppingCart();
 
@@ -63,10 +56,31 @@ public class ShoppingCartService {
                     shoppingCart
                             .getCartItems()
                             .add(newCartItem);
-
                     return shoppingCartRepository.save(shoppingCart);
                 });
 
+    }
+
+    @Transactional
+    public ShoppingCart removeProductFromShoppingCart(Long cartId, Long productId) {
+        return shoppingCartRepository
+                .findById(cartId)
+                .map(cart -> {
+                    CartItem ci = cart
+                            .getCartItems()
+                            .stream()
+                            .filter(cartItem -> cartItem
+                                    .getProduct()
+                                    .getProductId() == productId)
+                            .findFirst()
+                            .orElse(null);
+
+                    ci.setProduct(null);
+                    cart.removeFromCart(ci);
+
+                    return shoppingCartRepository.save(cart);
+                })
+                .orElse(null);
     }
 
 

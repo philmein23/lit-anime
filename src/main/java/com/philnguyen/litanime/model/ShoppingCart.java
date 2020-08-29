@@ -20,4 +20,12 @@ public class ShoppingCart {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "cart")
     @JsonIgnoreProperties("cart")
     private List<CartItem> cartItems = new ArrayList<>();
+
+    public void addToCart(CartItem cartItem) {
+        this.cartItems.add(cartItem);
+    }
+
+    public void removeFromCart(CartItem cartItem) {
+        this.cartItems.remove(cartItem);
+    }
 }
