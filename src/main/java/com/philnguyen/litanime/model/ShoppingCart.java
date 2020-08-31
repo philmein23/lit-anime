@@ -21,6 +21,10 @@ public class ShoppingCart {
     @JsonIgnoreProperties("cart")
     private List<CartItem> cartItems = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public void addToCart(CartItem cartItem) {
         this.cartItems.add(cartItem);
     }
@@ -28,4 +32,5 @@ public class ShoppingCart {
     public void removeFromCart(CartItem cartItem) {
         this.cartItems.remove(cartItem);
     }
+
 }
