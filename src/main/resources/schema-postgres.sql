@@ -3,7 +3,7 @@ drop table if exists orders cascade;
 drop table if exists order_items;
 drop table if exists cart_items;
 drop table if exists shopping_carts;
-drop table if exists users;
+drop table if exists customers;
 
 create table if not exists orders (
     order_id int generated always as identity primary key,
@@ -28,8 +28,8 @@ create table if not exists order_items (
     constraint fk_product foreign key(product_id) references products(product_id)
 );
 
-create table if not exists users (
-  user_id int generated always as identity primary key,
+create table if not exists customers (
+  customer_id int generated always as identity primary key,
   first_name varchar(255),
   last_name varchar(255),
   address varchar(255),
@@ -40,8 +40,8 @@ create table if not exists users (
 
 create table if not exists shopping_carts (
     cart_id int generated always as identity primary key,
-    user_id int,
-    constraint fk_user foreign key(user_id) references users(user_id)
+    customer_id int,
+    constraint fk_user foreign key(customer_id) references customers(customer_id)
 );
 
 create table if not exists cart_items (

@@ -22,8 +22,8 @@ public class ShoppingCart {
     private List<CartItem> cartItems = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     public void addToCart(CartItem cartItem) {
         this.cartItems.add(cartItem);

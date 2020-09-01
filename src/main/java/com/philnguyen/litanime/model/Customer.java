@@ -6,14 +6,14 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Data
-@Table(name = "users")
+@Table(name = "customers")
 @Entity
-public class User {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("user_id")
-    private Long userId;
+    @JsonProperty("customer_id")
+    private Long customerId;
 
     @JsonProperty("first_name")
     private String firstName;
@@ -30,6 +30,6 @@ public class User {
 
     private String address;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer")
     private ShoppingCart cart;
 }
