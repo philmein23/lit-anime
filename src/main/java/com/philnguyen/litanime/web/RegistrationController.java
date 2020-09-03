@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RegistrationController {
-    private final CustomerRepository customerRepository;
     private final RegistrationService registrationService;
 
-    public RegistrationController(CustomerRepository customerRepository, RegistrationService registrationService) {
-        this.customerRepository = customerRepository;
+    public RegistrationController(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }
 
