@@ -19,13 +19,13 @@ public class ProductController {
 
     @PostMapping("/products")
     public ResponseEntity<?> addNewProduct(@RequestBody ProductDto newProduct) {
-
         Product product = productService.addNewProduct(newProduct.getProductName(), newProduct.getDescription(), newProduct.getProductType(), newProduct.getPrice());
 
         return ResponseEntity.ok(product);
     }
 
     @GetMapping("/products")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         return ResponseEntity.ok(products);

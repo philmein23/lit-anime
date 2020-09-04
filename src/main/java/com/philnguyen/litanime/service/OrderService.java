@@ -43,11 +43,13 @@ public class OrderService {
         newOrder.setOrderDate(orderDate);
 
         for (ProductDto product : products) {
-            Product newProduct = new Product();
-            newProduct.setProductName(product.getProductName());
-            newProduct.setDescription(product.getDescription());
-            newProduct.setProductType(product.getProductType());
-            newProduct.setPrice(product.getPrice());
+            Product newProduct = Product.builder()
+                    .productName(product.getProductName())
+                    .description(product.getDescription())
+                    .productType(product.getProductType())
+                    .price(product.getPrice())
+                    .build();
+
 
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(newProduct);

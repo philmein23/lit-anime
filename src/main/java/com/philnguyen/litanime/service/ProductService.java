@@ -28,12 +28,13 @@ public class ProductService {
 
     @Transactional
     public Product addNewProduct(String productName, String description, String productType, float price) {
-        Product product = new Product();
 
-        product.setProductName(productName);
-        product.setDescription(description);
-        product.setProductType(productType);
-        product.setPrice(price);
+        Product product = Product.builder()
+                .productName(productName)
+                .description(description)
+                .productType(productType)
+                .price(price)
+                .build();
 
         return productRepository.save(product);
     }
